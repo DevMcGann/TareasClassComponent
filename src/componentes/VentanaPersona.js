@@ -9,24 +9,20 @@ class VentanaPersona extends Component {
     state = { 
         tareasArray:[],
         tareaNueva:{ nombre: ""},
-        quirofanoClicado:this.props.clicada  //Solucionar tema de que pierde referencia cuando refrescamos pantalla
+        quirofanoClicado:this.props.clicada  //Solucionar tema de que pierde referencia cuando refrescamos pantalla (podria arreglarlo con LS)
      }
      
      ////////////////////////////////LOCAL STORAGE//////////////////
      componentDidMount() {
-        
-         this.setState({quirofanoClicado: clicado})
         const listaTareas = localStorage.getItem('TAREAS');
-        console.log(JSON.stringify(listaTareas))
         if(listaTareas) {
           this.setState({
-            tareasArray : JSON.parse(listaTareas)    //NO ESTA ACTIALIZANDO STATE?
+            tareasArray : JSON.parse(listaTareas)    
           })
         }
       }
     
       componentDidUpdate() {
-        
         localStorage.setItem('TAREAS', JSON.stringify(this.state.tareasArray));
       }
      //////////////////////////////////////////////////////////////////////
@@ -43,7 +39,7 @@ class VentanaPersona extends Component {
               completa:false
           }
          // console.log("tarea " + JSON.stringify(tarea) )
-          this.setState({ ...this.state.tareasArray, tarea})   //HOUSTON WE HAVE A PROBLEM HERE
+          this.setState({tareasArray:[...this.state.tareasArray, tarea]})   //HOUSTON WE HAVE A PROBLEM HERE
          
       }
 
@@ -57,7 +53,7 @@ class VentanaPersona extends Component {
        
        ///////////////////////////////////////////////////////
 
-       eliminaTarea = id => {
+       eliminarTarea = id => {
         const nuevasTareas = [...this.state.tareasArray];
         var newArray = nuevasTareas.filter(function (tar) {
             return tar.id !== id 
@@ -67,10 +63,11 @@ class VentanaPersona extends Component {
 
     todasIncompletas= e=> {
         const copiaArray = [...this.state.tareasArray]
-        copiaArray.map(tarea => (
-            tarea.complete=false
+        var newArray = copiaArray.map(tarea => (
+            tarea.completa = false 
         ))
-        this.setState({ tareasArray:copiaArray})
+        console.log(newArray)
+        //this.setState({ tareasArray:newArray})
    }
 
    cambiarEstadoTarea = (tarea,index) => {
@@ -113,7 +110,7 @@ class VentanaPersona extends Component {
                              key={index}
                              tarea={tarea}
                              id={tarea.id}
-                             eliminaTarea={this.eliminaTarea}
+                             eliminarTarea={this.eliminarTarea}
                              cambiarEstadoTarea={this.cambiarEstadoTarea} 
                              index={index}
                              
