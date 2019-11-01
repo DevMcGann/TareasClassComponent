@@ -38,8 +38,7 @@ class VentanaPersona extends Component {
               nombre:this.state.tareaNueva.nombre,
               completa:false
           }
-         // console.log("tarea " + JSON.stringify(tarea) )
-          this.setState({tareasArray:[...this.state.tareasArray, tarea]})   //HOUSTON WE HAVE A PROBLEM HERE
+          this.setState({tareasArray:[...this.state.tareasArray, tarea]})   
          
       }
 
@@ -61,13 +60,14 @@ class VentanaPersona extends Component {
           this.setState( { tareasArray:newArray})
     }
 
-    todasIncompletas= e=> {
+    todasIncompletas= e=> {    // filtrar por idquirofano antes y despues si cambiar en el array
         const copiaArray = [...this.state.tareasArray]
-        var newArray = copiaArray.map(tarea => (
-            tarea.completa = false 
-        ))
-        console.log(newArray)
-        //this.setState({ tareasArray:newArray})
+        //var newArray = copiaArray.filter(function (tar) {
+            //return tar.idQuirofano === this.state.quirofanoClicado.id 
+       // });
+       copiaArray.forEach(tarea => (tarea.completa = false))
+      
+        this.setState({ tareasArray:copiaArray})
    }
 
    cambiarEstadoTarea = (tarea,index) => {
