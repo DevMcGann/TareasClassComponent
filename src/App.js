@@ -89,13 +89,15 @@ cargarPredef = (e) => {
     localStorage.setItem("QUIROFANOS", JSON.stringify(quirofanos))
     localStorage.setItem("TAREAS", JSON.stringify(tareas))
     
-    //const ListaQuirofanos = localStorage.getItem('QUIROFANOS');
-    //this.setState({
-     // personas : JSON.parse(ListaQuirofanos)
-   // })
-  }
-
+    
+  } 
   cargarStorage()
+  const ListaQuirofanos = localStorage.getItem('QUIROFANOS');
+    if(ListaQuirofanos) {
+      this.setState({
+        personas : JSON.parse(ListaQuirofanos)
+      })
+    }
 }
 
 
@@ -108,8 +110,8 @@ cargarPredef = (e) => {
           <Route exact path = "/" render= {()=> (
                 <div className="master">
                 <div className="header">
-                  <h1>ADM TAREAS</h1>
-                  <Link to="/"><input type="button" onClick={this.cargarPredef} placeholder="Cargar Predefinidas"/></Link>
+                  <Link to= "/" ><h1>ADM TAREAS</h1> </Link>
+                 <input type="button" onClick={this.cargarPredef }  placeholder="Cargar Predefinidas"/>
                 </div>
                   <NuevaPersona
                     crearPersona={this.crearPersona}
